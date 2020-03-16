@@ -1,10 +1,6 @@
-function base_case()
-  clear all
+function data = base_case(input_p, nelx, nely)
   addpath matlab_script/
-  input_p = 'fringe_m30.f00008';
   Re = 5.33333e5;
-  nelx = 165;
-  nely = 40;
   [data_p,lr1,elmap,time,istep,fields,emode,wdsz,etag,header,status] = readnek(input_p);
   [xx,yy,vx,vy,p,t] = reshapenek(data_p,nelx,nely);
 
@@ -60,35 +56,13 @@ function base_case()
   ss = zeros(nx,1);
   ss(ind+1:end) = cumsum(sqrt(dx.^2 + dy.^2));
   Re_s = Re*ss;
-
-  figure(2000)
-  plot(Re_s(ind:end),p(1,ind:end))
-  xlabel('$Re_s$','Interpreter','latex')
-  ylabel('P')
-
-  figure(2001)
-  contourf(xx,yy,ut)
-  xlabel('x')
-  ylabel('y')
-  colorbar()
-
-  figure(2002)
-  plot(Re_s(ind:end), Uv(ind:end))
-  xlabel('$Re_s$','Interpreter','latex')
-  ylabel("$U_{99}$",'Interpreter','latex')
-
-  figure(2003)
-  plot(Re_s(ind:end),dth(ind:end))
-  ylabel('$\delta^*$','Interpreter','latex')
-  xlabel('$Re_s$','Interpreter','latex')
-
-  figure(2004)
-  plot(Re_s(ind:end),y99(ind:end))
-  xlabel('$Re_s$','Interpreter','latex')
-  ylabel('$\delta$','Interpreter','latex')
-
-  figure(2005)
-  plot(Re_s(ind:end),dUTdn(ind:end))
-  xlabel('$Re_s$','Interpreter','latex')
-  ylabel('$\partial U_t \partial n$','Interpreter','latex')
+  data.Re_s = Re_s;
+  data.p = p;
+  data.xx = xx;
+  data.yy = yy;
+  data.ut = ut;
+  data.Uv = Uv;
+  data.dth = dth;
+  data.y99 = y99;
+  data.dUTdn = dUTdn;
 end
